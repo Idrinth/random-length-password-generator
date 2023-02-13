@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>RLPG</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                display: grid;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Random Length Password Generator<output id="op"></output></h1>
+        <p>Please <strong>don't</strong> take this serious, I just wanted to do something while waiting. These passwords <strong>may or may not</strong> be secure enough for you - if possible use two factor authentication or a public-private-key authentication.</p>
+        <button id="act">Generate a random password</button>
+        <input id="bl" type="text" placeholder="character blacklist"/>
+        <textarea id="out"></textarea>
+        <script type="text/javascript">
+            document.getElementById('act').onclick = () => {
+                const length = Math.ceil(Math.pow(2, 8 + Math.random() * 8));
+                document.getElementById('op').value = ` (${length})`;
+                const bl = document.getElementById('bl').value.split();
+                const characters = (() => {
+                    const d = [];
+                    for(let i=32;i<127;++i) {
+                        d.push(String.fromCharCode(i));
+                    }
+                    return d;
+                })().filter(x => !bl.includes(x));
+                if (characters.length === 0) {
+                    return;
+                }
+                const out = [];
+                while (out.length < length) {
+                    out.push(characters[Math.floor(Math.random() * characters.length)])
+                }
+                document.getElementById('out').value = out.join('');
+            };
+            document.getElementById('act').onclick();
+        </script>
+    </body>
+</html>
