@@ -9,15 +9,23 @@
                 display: grid;
                 text-align: center;
             }
+            body > div {
+                display: grid;
+                grid-template-columns: 50% 50%;
+            }
         </style>
     </head>
     <body>
         <h1>Random Length Password Generator<output id="op"></output></h1>
         <p>Please <strong>don't</strong> take this serious, I just wanted to do something while waiting. These passwords <strong>may or may not</strong> be secure enough for you - if possible use two factor authentication or a public-private-key authentication.</p>
-        <button id="act">Generate a random password</button>
-        <input id="bl" type="text" placeholder="character blacklist"/>
-        <input type="number" min="256" max="65536" id="min" value="256"/>
-        <input type="number" min="256" max="65536" id="max" value="65536"/>
+        <div>
+            <button id="act">Generate a random password</button>
+            <input id="bl" type="text" placeholder="character blacklist"/>
+        </div>
+        <div>
+            <input type="number" min="256" max="65536" id="min" value="256"/>
+            <input type="number" min="256" max="65536" id="max" value="65536"/>
+        </div>
         <textarea id="out"></textarea>
         <script type="text/javascript">
             document.getElementById('act').onclick = () => {
