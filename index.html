@@ -16,10 +16,32 @@
         <p>Please <strong>don't</strong> take this serious, I just wanted to do something while waiting. These passwords <strong>may or may not</strong> be secure enough for you - if possible use two factor authentication or a public-private-key authentication.</p>
         <button id="act">Generate a random password</button>
         <input id="bl" type="text" placeholder="character blacklist"/>
+        <input type="number" min="256" max="65536" id="min" value="256"/>
+        <input type="number" min="256" max="65536" id="max" value="65536"/>
         <textarea id="out"></textarea>
         <script type="text/javascript">
             document.getElementById('act').onclick = () => {
-                const length = Math.ceil(Math.pow(2, 8 + Math.random() * 8));
+                const length = (() => {
+                    let out = 0;
+                    const min = Number.parseInt(document.getElementById('min').value);
+                    const max = Number.parseInt(document.getElementById('max').value);
+                    if (min < 256) {
+                        min = 256;
+                    }
+                    if (max > 65536) {
+                        max = 65536;
+                    }
+                    if (max < min) {
+                        return min;
+                    }
+                    if (max === min) {
+                        return min;
+                    }
+                    while (out < min || out > max) {
+                        out = Math.ceil(Math.pow(2, 8 + Math.random() * 8));
+                    }
+                    return out;
+                })();
                 document.getElementById('op').value = ` (${length})`;
                 const bl = document.getElementById('bl').value.split();
                 const characters = (() => {
