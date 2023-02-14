@@ -13,26 +13,41 @@
                 display: grid;
                 grid-template-columns: 50% 50%;
             }
+            button {
+                background-color: darkred;
+                color: white;
+                border-color: darkred;
+            }
+            button:hover,
+            button:active {
+                background-color: black;
+                border-color: black;
+            }
+            input[type=number] {
+                text-align: right;
+            }
         </style>
     </head>
     <body>
         <h1>Random Length Password Generator<output id="op"></output></h1>
         <p>Please <strong>don't</strong> take this serious, I just wanted to do something while waiting. These passwords <strong>may or may not</strong> be secure enough for you - if possible use two factor authentication or a public-private-key authentication.</p>
         <div>
-            <button id="act">Generate a random password</button>
-            <input id="bl" type="text" placeholder="character blacklist"/>
-        </div>
-        <div>
+            <label for="min">Minimum Length</label>
+            <label for="max">Maximum Length</label>
             <input type="number" min="256" max="65536" id="min" value="256"/>
             <input type="number" min="256" max="65536" id="max" value="65536"/>
+            <label for="bl">Character Blacklist</label>
+            <span></span>
+            <input id="bl" type="text" placeholder="character blacklist"/>
+            <button id="act">Generate a random password</button>
         </div>
         <textarea id="out"></textarea>
         <script type="text/javascript">
             document.getElementById('act').onclick = () => {
                 const length = (() => {
                     let out = 0;
-                    const min = Number.parseInt(document.getElementById('min').value);
-                    const max = Number.parseInt(document.getElementById('max').value);
+                    let min = Number.parseInt(document.getElementById('min').value);
+                    let max = Number.parseInt(document.getElementById('max').value);
                     if (min < 256) {
                         min = 256;
                     }
