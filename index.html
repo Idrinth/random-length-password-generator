@@ -62,7 +62,7 @@
                     el.setAttribute('class', 'error');
                 } else if (val > 65536) {
                     el.setAttribute('class', 'error');
-                } else if (val < Number.parseInt(el2.value)) {
+                } else if (val > Number.parseInt(el2.value)) {
                     el.setAttribute('class', 'error');
                 }
                 act.disabled = el.hasAttribute('class') || el2.hasAttribute('class');
