@@ -23,8 +23,15 @@
                 background-color: black;
                 border-color: black;
             }
+            button[disabled] {
+                background: grey;
+            }
             input[type=number] {
                 text-align: right;
+            }
+            input.error {
+                border-color: darkred;
+                background: lightcoral;
             }
         </style>
     </head>
@@ -36,8 +43,8 @@
         <div>
             <label for="min">Minimum Length</label>
             <label for="max">Maximum Length</label>
-            <input type="number" min="256" max="65536" id="min" value="256"/>
-            <input type="number" min="256" max="65536" id="max" value="65536"/>
+            <input required type="number" min="256" max="65536" id="min" value="256"/>
+            <input required type="number" min="256" max="65536" id="max" value="65536"/>
             <label for="bl">Character Blacklist</label>
             <span></span>
             <input id="bl" type="text" placeholder="character blacklist"/>
@@ -45,7 +52,41 @@
         </div>
         <textarea id="out"></textarea>
         <script type="text/javascript">
+            document.getElementById('min').onchange = () => {
+                const el = document.getElementById('min');
+                const el2 = document.getElementById('max');
+                const act = document.getElementById('act');
+                const val = Number.parseInt(el.value);
+                el.removeAttribute('class');
+                if (val < 256) {
+                    el.setAttribute('class', 'error');
+                } else if (val > 65536) {
+                    el.setAttribute('class', 'error');
+                } else if (val < Number.parseInt(el2.value)) {
+                    el.setAttribute('class', 'error');
+                }
+                act.disabled = el.hasAttribute('class') || el2.hasAttribute('class');
+            };
+            document.getElementById('max').onchange = () => {
+                const el = document.getElementById('max');
+                const el2 = document.getElementById('min');
+                const act = document.getElementById('act');
+                const val = Number.parseInt(el.value);
+                el.removeAttribute('class');
+                if (val < 256) {
+                    el.setAttribute('class', 'error');
+                } else if (val > 65536) {
+                    el.setAttribute('class', 'error');
+                } else if (val < Number.parseInt(el2.value)) {
+                    el.setAttribute('class', 'error');
+                }
+                act.disabled = el.hasAttribute('class') || el2.hasAttribute('class');
+            };
             document.getElementById('act').onclick = () => {
+                if (document.getElementById('act').disabled) {
+                    document.getElementById('out').value = '';
+                    return;
+                }
                 const length = (() => {
                     let out = 0;
                     let min = Number.parseInt(document.getElementById('min').value);
@@ -81,10 +122,12 @@
                 }
                 const out = [];
                 while (out.length < length) {
-                    out.push(characters[Math.floor(Math.random() * characters.length)])
+                    out.push(characters[Math.floor(Math.random() * characters.length)]);
                 }
                 document.getElementById('out').value = out.join('');
             };
+            document.getElementById('min').onchange();
+            document.getElementById('max').onchange();
             document.getElementById('act').onclick();
         </script>
     </body>
