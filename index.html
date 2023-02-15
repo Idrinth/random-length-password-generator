@@ -56,9 +56,11 @@
             <label for="blf">Set Automatic Blacklist</label>
             <select id="blf">
                 <option value="">No Blacklist</option>
-                <option value=" !&quot;#$%&amp;'()*+,-./:;<>=?@^\[]_`{}|~">Only Alphanumeric</option>
-                <option value=" !&quot;#$%&amp;'()*+,-./:;<>=?@^\[]_`{}|~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ">Only Numeric</option>
-                <option value=" !&quot;#$%&amp;'()*+,-./:;<>=?@^\[]_`{}|~0123456789">Only Letters</option>
+                <option value=" !&quot;#$%&amp;'()*+,-./:;<>=?@^\[]_`´{}|~">Only Alphanumeric(Letters&amp;Numbers)</option>
+                <option value=" !&quot;#$%&amp;'()*+,-./:;<>=?@^\[]_`´{}|~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ">Only Numeric</option>
+                <option value=" !&quot;#$%&amp;'()*+,-./:;<>=?@^\[]_`´{}|~0123456789">Only Letters</option>
+                <option value=" &quot;#&amp;/?[]@!$',;=<>%{}|\^`">URL-safe</option>
+                <option value="&quot;$%&amp;<>'">HTML-safe</option>
             </select>
             <span></span>
             <button id="act">Generate a random password</button>
