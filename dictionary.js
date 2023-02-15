@@ -5,8 +5,8 @@ function fillDictionary(dictionaryReference, glbl)
     }
     for (const key of Object.keys(zxcvbnts)) {
         if (key.startsWith('language-')) {
-            for (const prop of zxcvbnts[key]) {
-                dictionary[prop] = zxcvbnts[key][prop];
+            for (const prop of Object.keys(zxcvbnts[key])) {
+                dictionaryReference[prop] = zxcvbnts[key][prop];
             }
         }
     }
