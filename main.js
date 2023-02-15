@@ -99,7 +99,7 @@
                 document.getElementById('feedback').value = 'Crack Time: ' + strength.crackTimesDisplay.offlineFastHashing1e10PerSecond;
                 document.getElementById('bg').setAttribute('style', 'display: none');
             } else if (check && typeof wrk !== 'undefined') {
-                wrk.sendMessage(document.getElementById('out').value);
+                wrk.postMessage(document.getElementById('out').value);
             } else {
                 document.getElementById('bg').setAttribute('style', 'display: none');
             }
