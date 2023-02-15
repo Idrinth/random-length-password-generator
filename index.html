@@ -152,9 +152,14 @@
                     ...zxcvbnts['language-en'].dictionary,
                   },
                 });
-                const strength = zxcvbnts.core.zxcvbn(document.getElementById('out').value);
-                document.getElementById('strength').value = strength.score || 0;
-                document.getElementById('feedback').value = 'Crack Time: ' + strength.crackTimesDisplay;
+                if (typeof window.zxcvbnts !== 'undefined') {
+                    const strength = zxcvbnts.core.zxcvbn(document.getElementById('out').value);
+                    document.getElementById('strength').value = strength.score;
+                    document.getElementById('feedback').value = 'Crack Time: ' + strength.crackTimesDisplay;
+                } else {
+                    document.getElementById('strength').setAttribute('style', 'display:none');
+                    document.getElementById('feedback').setAttribute('style', 'display:none');
+                }
             };
             const blacklist = () => {
                 document.getElementById('bl').value = document.getElementById('blf').value;
