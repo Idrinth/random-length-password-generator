@@ -1,81 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>RLPG</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            body {
-                display: grid;
-                text-align: center;
-            }
-            body > div {
-                display: grid;
-                grid-template-columns: 50% 50%;
-            }
-            button {
-                background-color: darkgreen;
-                color: white;
-                border-color: darkgreen;
-            }
-            button:hover,
-            button:active {
-                background-color: black;
-                border-color: black;
-            }
-            button[disabled] {
-                background: grey;
-                border-color: darkred;
-            }
-            button[disabled]:hover,
-            button[disabled]:active {
-                background: white;
-                color: black;
-            }
-            input[type=number] {
-                text-align: right;
-            }
-            input.error {
-                border-color: darkred;
-                background: lightcoral;
-            }
-            #bg {
-                background: rgba(0,0,0,0.5);
-                position: fixed;
-                top: 0;
-                height: 100%;
-                bottom: 0;
-                left:0;
-                right: 0;
-                width: 100%;
-            }
-            .lds-dual-ring {
-                display: inline-block;
-                width: 80px;
-                height: 80px;
-                top: calc(50% - 40px);
-                left: calc(50% - 40px);
-            }
-            .lds-dual-ring:after {
-                content: " ";
-                display: block;
-                width: 64px;
-                height: 64px;
-                margin: 8px;
-                border-radius: 50%;
-                border: 6px solid #fff;
-                border-color: #fff transparent #fff transparent;
-                animation: lds-dual-ring 1.2s linear infinite;
-            }
-            @keyframes lds-dual-ring {
-                0% {
-                    transform: rotate(0deg);
-                }
-                100% {
-                    transform: rotate(360deg);
-                }
-            }
-        </style>
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
         <h1>Random Length Password Generator<output id="op"></output></h1>
