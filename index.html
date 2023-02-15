@@ -66,6 +66,13 @@
             <button id="act">Generate a random password</button>
         </div>
         <textarea id="out"></textarea>
+        <div>
+            <progress max="4" value="0" title="Password strength" id="strength"></progress>
+            <output id="feedback"></output>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/@zxcvbn-ts/core@2.0.0/dist/zxcvbn-ts.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@zxcvbn-ts/language-common@2.0.0/dist/zxcvbn-ts.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@zxcvbn-ts/language-en@2.0.0/dist/zxcvbn-ts.js"></script>
         <script>
         (() => {
             const validate = () => {
@@ -137,6 +144,17 @@
                     out.push(characters[Math.floor(Math.random() * characters.length)]);
                 }
                 document.getElementById('out').value = out.join('');
+                zxcvbnts.core.zxcvbnOptions.setOptions({
+                  translations: zxcvbnts['language-en'].translations,
+                  graphs: zxcvbnts['language-common'].adjacencyGraphs,
+                  dictionary: {
+                    ...zxcvbnts['language-common'].dictionary,
+                    ...zxcvbnts['language-en'].dictionary,
+                  },
+                });
+                const strength = zxcvbnts.core.zxcvbn(document.getElementById('out').value);
+                document.getElementById('strength').value = strength.score || 0;
+                document.getElementById('feedback').value = 'Crack Time: ' + strength.crackTimesDisplay;
             };
             const blacklist = () => {
                 document.getElementById('bl').value = document.getElementById('blf').value;
