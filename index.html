@@ -52,9 +52,7 @@
             <label for="max">Maximum Length</label>
             <input required type="number" min="256" max="65536" id="max" value="65536"/>
             <label for="bl">Character Blacklist</label>
-            <span></span>
             <input id="bl" type="text" placeholder="character blacklist"/>
-            <button id="act">Generate a random password</button>
             <label for="blf">Set Automatic Blacklist</label>
             <select id="blf">
                 <option value="">No Blacklist</option>
@@ -62,6 +60,8 @@
                 <option value=" !&quot;#$%&amp;'()*+,-./:;<>=?@^\[]_`{}|~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ">Only Numeric</option>
                 <option value=" !&quot;#$%&amp;'()*+,-./:;<>=?@^\[]_`{}|~0123456789">Only Letters</option>
             </select>
+            <span></span>
+            <button id="act">Generate a random password</button>
         </div>
         <textarea id="out"></textarea>
         <script>
