@@ -149,6 +149,10 @@
                     }
                     window.setTimeout(() => {document.getElementById('bg').setAttribute('style', 'display: block')}, 1);
                     window.setTimeout(() => {
+                        let check = document.getElementById('cps').checked;
+                        if (check) {
+                            check = window.confirm('Are you sure you want to check the password strength? It takes a while.')
+                        }
                         const length = (() => {
                             let out = 0;
                             let min = Number.parseInt(document.getElementById('min').value);
@@ -188,7 +192,7 @@
                             out.push(characters[Math.floor(Math.random() * characters.length)]);
                         }
                         document.getElementById('out').value = out.join('');
-                        if (document.getElementById('cps').checked && typeof window.zxcvbnts !== 'undefined') {
+                        if (check) {
                             zxcvbnts.core.zxcvbnOptions.setOptions({
                                 translations: zxcvbnts['language-en'].translations,
                                 graphs: zxcvbnts['language-common'].adjacencyGraphs,
@@ -200,11 +204,6 @@
                             const strength = zxcvbnts.core.zxcvbn(document.getElementById('out').value);
                             document.getElementById('strength').value = strength.score;
                             document.getElementById('feedback').value = 'Crack Time: ' + strength.crackTimesDisplay.offlineFastHashing1e10PerSecond;
-                        } else if (typeof window.zxcvbnts === 'undefined') {
-                            document.getElementById('strength').setAttribute('style', 'display:none');
-                            document.getElementById('feedback').setAttribute('style', 'display:none');
-                            document.getElementById('cps').checked = false;
-                            document.getElementById('cps').disabled = true;
                         }
                         document.getElementById('bg').setAttribute('style', 'display: none');
                     },1);
@@ -219,6 +218,12 @@
                 document.getElementById('act').onclick = generate;
                 document.getElementById('blf').onchange = blacklist;
                 document.getElementById('blf').onblur = blacklist;
+                if (typeof window.zxcvbnts === 'undefined') {
+                    document.getElementById('strength').setAttribute('style', 'display:none');
+                    document.getElementById('feedback').setAttribute('style', 'display:none');
+                    document.getElementById('cps').checked = false;
+                    document.getElementById('cps').disabled = true;
+                }
                 validate();
                 generate();
             })();
