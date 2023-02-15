@@ -1,6 +1,6 @@
-function fillDictionary(dictionaryReference)
+function fillDictionary(dictionaryReference, glbl)
 {
-    if (Object.keys(dictionaryReference).length > 0 || typeof window.zxcvbnts === 'undefined' || typeof zxcvbnts['language-en'] === 'undefined' || typeof zxcvbnts['language-common'] === 'undefined') {
+    if (Object.keys(dictionaryReference).length > 0 || typeof glbl.zxcvbnts === 'undefined' || typeof zxcvbnts['language-en'] === 'undefined' || typeof zxcvbnts['language-common'] === 'undefined') {
         return;
     }
     for (const key of Object.keys(zxcvbnts)) {

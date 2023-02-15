@@ -43,7 +43,7 @@
         act.disabled = min.hasAttribute('class') || max.hasAttribute('class');
     };
     const generate = () => {
-        fillDictionary(dictionary);
+        fillDictionary(dictionary, window);
         if (document.getElementById('act').disabled) {
             document.getElementById('out').value = '';
             return;

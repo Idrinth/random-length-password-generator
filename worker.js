@@ -5,7 +5,7 @@
         importScripts(`https://cdn.jsdelivr.net/npm/@zxcvbn-ts/${script}@${scripts[script]}/dist/zxcvbn-ts.js`);
     }
     const dictionary = {};
-    fillDictionary(dictionary);
+    fillDictionary(dictionary, self);
     self.onmessage = (e) => {
         const strength = zxcvbnts.core.zxcvbn(e.data);
         self.postMessage(JSON.encode(strength));
