@@ -24,11 +24,15 @@
         const maxVal = Number.parseInt(max.value);
         min.removeAttribute('class');
         max.removeAttribute('class');
-        if (minVal < 256) {
+        if (minVal < 8) {
             min.setAttribute('class', 'error');
+        } else if (minVal < 256) {
+            min.setAttribute('class', 'warning');
         }
-        if (maxVal < 256) {
+        if (maxVal < 8) {
             max.setAttribute('class', 'error');
+        } else if (maxVal < 256) {
+            max.setAttribute('class', 'warning');
         }
         if (minVal > 65536) {
             min.setAttribute('class', 'error');
@@ -52,14 +56,17 @@
         window.setTimeout(() => {
             let check = document.getElementById('cps').checked;
             if (check) {
-                check = window.confirm('Are you sure you want to check the password strength? It takes a while.')
+                check = window.confirm('Are you sure you want to check the password strength? It takes a while.');
             }
             const length = (() => {
                 let out = 0;
                 let min = Number.parseInt(document.getElementById('min').value);
                 let max = Number.parseInt(document.getElementById('max').value);
+                if (min < 8) {
+                    min = 8;
+                }
                 if (min < 256) {
-                    min = 256;
+                    min = window.confirm('Are you sure you want to create such a short password?') ? min : 256;
                 }
                 if (max > 65536) {
                     max = 65536;
@@ -69,6 +76,9 @@
                 }
                 if (max === min) {
                     return min;
+                }
+                if (max < 256) {
+                    return max;
                 }
                 while (out < min || out > max) {
                     out = Math.ceil(Math.pow(2, 8 + Math.random() * 8));

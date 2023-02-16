@@ -32,6 +32,10 @@ input.error {
     border-color: darkred;
     background: lightcoral;
 }
+input.warning {
+    border-color: gold;
+    background: lightyellow;
+}
 #bg {
     background: rgba(0,0,0,0.5);
     position: fixed;
