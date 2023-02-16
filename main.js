@@ -126,7 +126,7 @@
                     return;
                 }
             }
-            document.getElementById('op').value = ` (${length})`;
+            document.getElementById('op').value = length;
             const bl = document.getElementById('bl').value.split('');
             const characters = (() => {
                 const d = [];
@@ -169,6 +169,7 @@
                 }
             }
             document.getElementById('out').value = value;
+            document.getElementById('cp').disabled = false;
             if (check && typeof zxcvbnts !== 'undefined') {
                 const strength = zxcvbnts.core.zxcvbn(value);
                 document.getElementById('strength').value = strength.score;
@@ -209,5 +210,11 @@
     document.getElementById('erlcl').onblur = blacklist;
     document.getElementById('ersc').onchange = blacklist;
     document.getElementById('ersc').onblur = blacklist;
+    document.getElementById('cp').onclick = () => {
+        const out = document.getElementById('out');
+        out.select();
+        out.setSelectionRange(0, out.value.length);
+        navigator.clipboard.writeText(out.value);
+    };
     validate();
 })();

@@ -44,14 +44,14 @@
             <label for="ersc">Enforce Rule: 1 Special Character</label>
             <input id="ersc" type="checkbox" checked/>
             <span></span>
-            <button id="act">Generate a random password</button>
+            <button id="act">Generate a password</button>
         </div>
         <textarea id="out"></textarea>
         <div>
             <label>Password Strength: <progress max="4" value="0" title="Password strength" id="strength"></progress></label>
             <p><output id="feedback">Crack time: unknown</output> estimated by <a href="https://github.com/zxcvbn-ts/zxcvbn" target="_blank">zxcvbn-ts</a>.</p>
             <p>Length: <output id="op"></output></p>
-            <span></span>
+            <button id="cp" disabled>Copy password</button>
         </div>
         <div id="bg" style="display:none">
             <div class="lds-dual-ring"></div>
