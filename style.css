@@ -11,7 +11,7 @@ body > div {
 }
 p {
     margin: 0;
-    padding: 2.5em;
+    padding: 0.25em;
 }
 div > p {
     padding: 0;
@@ -30,6 +30,9 @@ textarea, input, select {
 }
 div,textarea {
   box-shadow: 1px 1px 1px rgba(0,0,0,0.25);
+}
+#bg > div {
+    box-shadow: none;
 }
 button:hover,
 button:active {
