@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <h1>Random Length Password Generator<output id="op"></output></h1>
+        <h1>Random Length Password Generator</h1>
         <p>These passwords <strong>may or may not</strong> be secure enough for you - if possible use two factor authentication or a public-private-key authentication.</p>
         <p>Everything here happens client side and nothing is sent to the server, see the <a target="_blank" href="https://github.com/Idrinth/random-length-password-generator">code</a> if you want to check yourself!</p>
         <div>
@@ -25,16 +25,28 @@
                 <option value=" !&quot;#$%&amp;'()*+,-./:;<>=?@^\[]_`´{}|~0123456789">Only Letters</option>
                 <option value=" &quot;#&amp;/?[]@!$',;=<>%{}|\^`">URL-safe</option>
                 <option value="&quot;$%&amp;<>'">HTML-safe</option>
+                <option value=" !&quot;#$%&amp;'()*+,-./:;<>=?@^\[]_`´{}|~ghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ">Hexadecimal(lower case)</option>
+                <option value=" !&quot;#$%&amp;'()*+,-./:;<>=?@^\[]_`´{}|~abcdefghijklmnopqrstuvwxyzGHIJKLMNOPQRSTUVWXYZ">Hexadecimal(upper case)</option>
             </select>
             <label for="cps">Check Password Strength</label>
             <input id="cps" type="checkbox"/>
+            <label for="ern">Enforce Rule: 1 Number</label>
+            <input id="ern" type="checkbox" checked/>
+            <label for="erucl">Enforce Rule: 1 Upper Case Letter</label>
+            <input id="erucl" type="checkbox" checked/>
+            <label for="erlcl">Enforce Rule: 1 Lower Case Letter</label>
+            <input id="erlcl" type="checkbox" checked/>
+            <label for="ersc">Enforce Rule: 1 Special Character</label>
+            <input id="ersc" type="checkbox" checked/>
             <span></span>
             <button id="act">Generate a random password</button>
         </div>
         <textarea id="out"></textarea>
         <div>
             <label>Password Strength: <progress max="4" value="0" title="Password strength" id="strength"></progress></label>
-            <p><output id="feedback">Crack time: unknown</output> provided by <a href="https://github.com/zxcvbn-ts/zxcvbn" target="_blank">zxcvbn-ts</a>.</p>
+            <p><output id="feedback">Crack time: unknown</output> estimated by <a href="https://github.com/zxcvbn-ts/zxcvbn" target="_blank">zxcvbn-ts</a>.</p>
+            <p>Length: <output id="op"></output></p>
+            <span></span>
         </div>
         <div id="bg" style="display:none">
             <div class="lds-dual-ring"></div>

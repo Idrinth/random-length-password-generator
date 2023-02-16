@@ -1,4 +1,8 @@
 (async () => {
+    const NUMBER_CHARACTERS = '0123456789'.split();
+    const UPPER_CASE_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    const LOWER_CASE_CHARACTERS = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    const SPECIAL_CHARACTERS = '!";#$%&\'()*+,-./:;<>=?@^\[]_`´{}|~'.split('');
     const wrk = typeof window.Worker === 'undefined' ? undefined : new Worker('worker.js');
     const dictionary = {};
     if (wrk) {
@@ -16,6 +20,18 @@
             document.body.appendChild(s);
         }
     }
+    const enabledAndChecked = (id) => {
+        if (!document.getElementById(id)) {
+            return false;
+        }
+        if (document.getElementById(id).disabled) {
+            return false;
+        }
+        if (!document.getElementById(id).checked) {
+            return false;
+        }
+        return true;
+    };
     const validate = () => {
         const min = document.getElementById('min');
         const max = document.getElementById('max');
@@ -52,13 +68,21 @@
         }
         act.disabled = errored;
     };
+    const containsAny = (string, letters) => {
+        for (const letter of letters) {
+            if (string.includes(letter)) {
+                return true;
+            }
+        }
+        return false;
+    };
     const generate = () => {
         fillDictionary(dictionary, window);
         if (document.getElementById('act').disabled) {
             document.getElementById('out').value = '';
             return;
         }
-        window.setTimeout(() => {document.getElementById('bg').setAttribute('style', 'display: block')}, 1);
+        window.setTimeout(() => {document.getElementById('bg').setAttribute('style', 'display: block');}, 1);
         window.setTimeout(() => {
             let check = document.getElementById('cps').checked;
             if (check) {
@@ -111,28 +135,70 @@
             while (out.length < length) {
                 out.push(characters[Math.floor(Math.random() * characters.length)]);
             }
-            document.getElementById('out').value = out.join('');
+            const value = out.join('');
+            if (enabledAndChecked('ern')) {
+                if (!containsAny(value, NUMBER_CHARACTERS)) {
+                    window.setTimeout(() => {document.getElementById('act').click();}, 1);
+                    return;
+                }
+            }
+            if (enabledAndChecked('erucl')) {
+                if (!containsAny(value, UPPER_CASE_CHARACTERS)) {
+                    window.setTimeout(() => {document.getElementById('act').click();}, 1);
+                    return;
+                }
+            }
+            if (enabledAndChecked('erlcl')) {
+                if (!containsAny(value, LOWER_CASE_CHARACTERS)) {
+                    window.setTimeout(() => {document.getElementById('act').click();}, 1);
+                    return;
+                }
+            }
+            if (enabledAndChecked('ersc')) {
+                if (!containsAny(value, SPECIAL_CHARACTERS)) {
+                    window.setTimeout(() => {document.getElementById('act').click();}, 1);
+                    return;
+                }
+            }
+            document.getElementById('out').value = value;
             if (check && typeof zxcvbnts !== 'undefined') {
-                const strength = zxcvbnts.core.zxcvbn(document.getElementById('out').value);
+                const strength = zxcvbnts.core.zxcvbn(value);
                 document.getElementById('strength').value = strength.score;
                 document.getElementById('feedback').value = 'Crack Time: ' + strength.crackTimesDisplay.offlineFastHashing1e10PerSecond;
                 document.getElementById('bg').setAttribute('style', 'display: none');
             } else if (check && typeof wrk !== 'undefined') {
-                wrk.postMessage(document.getElementById('out').value);
+                wrk.postMessage(value);
             } else {
                 document.getElementById('bg').setAttribute('style', 'display: none');
             }
         },1);
     };
     const blacklist = () => {
+        document.getElementById('ern').disabled = !containsAny(document.getElementById('bl').value, NUMBER_CHARACTERS);
+        document.getElementById('erucl').disabled = !containsAny(document.getElementById('bl').value, UPPER_CASE_CHARACTERS);
+        document.getElementById('erlcl').disabled = !containsAny(document.getElementById('bl').value, LOWER_CASE_CHARACTERS);
+        document.getElementById('ersc').disabled = !containsAny(document.getElementById('bl').value, SPECIAL_CHARACTERS);
+    };
+    const autoBlacklist = () => {
         document.getElementById('bl').value = document.getElementById('blf').value;
+        blacklist();
     };
     document.getElementById('min').onchange = validate;
     document.getElementById('max').onchange = validate;
     document.getElementById('min').onblur = validate;
     document.getElementById('max').onblur = validate;
     document.getElementById('act').onclick = generate;
-    document.getElementById('blf').onchange = blacklist;
-    document.getElementById('blf').onblur = blacklist;
+    document.getElementById('blf').onchange = autoBlacklist;
+    document.getElementById('blf').onblur = autoBlacklist;
+    document.getElementById('bl').onchange = blacklist;
+    document.getElementById('bl').onblur = blacklist;
+    document.getElementById('ern').onchange = blacklist;
+    document.getElementById('ern').onblur = blacklist;
+    document.getElementById('erucl').onchange = blacklist;
+    document.getElementById('erucl').onblur = blacklist;
+    document.getElementById('erlcl').onchange = blacklist;
+    document.getElementById('erlcl').onblur = blacklist;
+    document.getElementById('ersc').onchange = blacklist;
+    document.getElementById('ersc').onblur = blacklist;
     validate();
 })();
