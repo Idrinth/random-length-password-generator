@@ -1,5 +1,5 @@
 (async () => {
-    const NUMBER_CHARACTERS = '0123456789'.split();
+    const NUMBER_CHARACTERS = '0123456789'.split('');
     const UPPER_CASE_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     const LOWER_CASE_CHARACTERS = 'abcdefghijklmnopqrstuvwxyz'.split('');
     const SPECIAL_CHARACTERS = '!";#$%&\'()*+,-./:;<>=?@^\[]_`´{}|~'.split('');
@@ -75,6 +75,14 @@
             }
         }
         return false;
+    };
+    const containsAll = (string, letters) => {
+        for (const letter of letters) {
+            if (!string.includes(letter)) {
+                return false;
+            }
+        }
+        return true;
     };
     const generate = () => {
         fillDictionary(dictionary, window);
@@ -174,10 +182,11 @@
         },1);
     };
     const blacklist = () => {
-        document.getElementById('ern').disabled = !containsAny(document.getElementById('bl').value, NUMBER_CHARACTERS);
-        document.getElementById('erucl').disabled = !containsAny(document.getElementById('bl').value, UPPER_CASE_CHARACTERS);
-        document.getElementById('erlcl').disabled = !containsAny(document.getElementById('bl').value, LOWER_CASE_CHARACTERS);
-        document.getElementById('ersc').disabled = !containsAny(document.getElementById('bl').value, SPECIAL_CHARACTERS);
+        const value = document.getElementById('bl').value;
+        document.getElementById('ern').disabled = containsAll(value, NUMBER_CHARACTERS);
+        document.getElementById('erucl').disabled = containsAll(value, UPPER_CASE_CHARACTERS);
+        document.getElementById('erlcl').disabled = containsAll(value, LOWER_CASE_CHARACTERS);
+        document.getElementById('ersc').disabled = containsAll(value, SPECIAL_CHARACTERS);
     };
     const autoBlacklist = () => {
         document.getElementById('bl').value = document.getElementById('blf').value;
