@@ -71,9 +71,6 @@
                 if (min < 8) {
                     min = 8;
                 }
-                if (min < 256) {
-                    min = window.confirm('Are you sure you want to create such a short password?') ? min : 256;
-                }
                 if (max > 65536) {
                     max = 65536;
                 }
@@ -91,6 +88,12 @@
                 }
                 return out;
             })();
+            if (length < 256) {
+                if (!window.confirm('Are you sure you want to create such a short password?')) {
+                    document.getElementById('bg').setAttribute('style', 'display: none');
+                    return;
+                }
+            }
             document.getElementById('op').value = ` (${length})`;
             const bl = document.getElementById('bl').value.split('');
             const characters = (() => {
