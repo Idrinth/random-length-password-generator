@@ -6,6 +6,7 @@
     const wrk = typeof window.Worker === 'undefined' ? undefined : new Worker('worker.js');
     const dictionary = {};
     let wrkReady = false;
+    let questionWasAsked = false;
     if (wrk) {
         wrk.onmessage = (e) => {
             const data = JSON.parse(e.data);
@@ -95,6 +96,29 @@
         }
         return true;
     };
+    const fullfillsRules = (value) => {
+        if (enabledAndChecked('ern')) {
+            if (!containsAny(value, NUMBER_CHARACTERS)) {
+                return false;
+            }
+        }
+        if (enabledAndChecked('erucl')) {
+            if (!containsAny(value, UPPER_CASE_CHARACTERS)) {
+                return false;
+            }
+        }
+        if (enabledAndChecked('erlcl')) {
+            if (!containsAny(value, LOWER_CASE_CHARACTERS)) {
+                return false;
+            }
+        }
+        if (enabledAndChecked('ersc')) {
+            if (!containsAny(value, SPECIAL_CHARACTERS)) {
+                return false;
+            }
+        }
+        return true;
+    };
     const generate = () => {
         fillDictionary(dictionary, window);
         if (document.getElementById('act').disabled) {
@@ -150,35 +174,14 @@
                 document.getElementById('bg').setAttribute('style', 'display: none');
                 return;
             }
-            const out = [];
-            while (out.length < length) {
-                out.push(characters[Math.floor(Math.random() * characters.length)]);
-            }
-            const value = out.join('');
-            if (enabledAndChecked('ern')) {
-                if (!containsAny(value, NUMBER_CHARACTERS)) {
-                    window.setTimeout(() => {document.getElementById('act').click();}, 1);
-                    return;
+            let value = '';
+            do {
+                const out = [];
+                while (out.length < length) {
+                    out.push(characters[Math.floor(Math.random() * characters.length)]);
                 }
-            }
-            if (enabledAndChecked('erucl')) {
-                if (!containsAny(value, UPPER_CASE_CHARACTERS)) {
-                    window.setTimeout(() => {document.getElementById('act').click();}, 1);
-                    return;
-                }
-            }
-            if (enabledAndChecked('erlcl')) {
-                if (!containsAny(value, LOWER_CASE_CHARACTERS)) {
-                    window.setTimeout(() => {document.getElementById('act').click();}, 1);
-                    return;
-                }
-            }
-            if (enabledAndChecked('ersc')) {
-                if (!containsAny(value, SPECIAL_CHARACTERS)) {
-                    window.setTimeout(() => {document.getElementById('act').click();}, 1);
-                    return;
-                }
-            }
+                value = out.join('');
+            } while (!fullfillsRules(value));
             document.getElementById('out').value = value;
             document.getElementById('cp').disabled = false;
             if (check && typeof zxcvbnts !== 'undefined') {
