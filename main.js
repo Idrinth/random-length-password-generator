@@ -216,5 +216,6 @@
         out.setSelectionRange(0, out.value.length);
         navigator.clipboard.writeText(out.value);
     };
+    document.getElementById('cp').disabled = document.getElementById('out').value.length > 0;
     validate();
 })();
