@@ -13,6 +13,9 @@ p {
     margin: 0;
     padding: 2.5em;
 }
+div > p {
+    padding: 0;
+}
 button {
     background-color: darkgreen;
     color: white;
