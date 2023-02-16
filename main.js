@@ -22,29 +22,35 @@
         const act = document.getElementById('act');
         const minVal = Number.parseInt(min.value);
         const maxVal = Number.parseInt(max.value);
+        let errored = false;
         min.removeAttribute('class');
         max.removeAttribute('class');
         if (minVal < 8) {
+            errored = true;
             min.setAttribute('class', 'error');
         } else if (minVal < 256) {
             min.setAttribute('class', 'warning');
         }
         if (maxVal < 8) {
+            errored = true;
             max.setAttribute('class', 'error');
         } else if (maxVal < 256) {
             max.setAttribute('class', 'warning');
         }
         if (minVal > 65536) {
+            errored = true;
             min.setAttribute('class', 'error');
         }
         if (maxVal > 65536) {
+            errored = true;
             max.setAttribute('class', 'error');
         }
         if (minVal > maxVal) {
+            errored = true;
             min.setAttribute('class', 'error');
             max.setAttribute('class', 'error');
         }
-        act.disabled = min.hasAttribute('class') || max.hasAttribute('class');
+        act.disabled = errored;
     };
     const generate = () => {
         fillDictionary(dictionary, window);
@@ -125,4 +131,5 @@
     document.getElementById('act').onclick = generate;
     document.getElementById('blf').onchange = blacklist;
     document.getElementById('blf').onblur = blacklist;
+    validate();
 })();
