@@ -5,12 +5,20 @@
     const SPECIAL_CHARACTERS = '!";#$%&\'()*+,-./:;<>=?@^\[]_`´{}|~'.split('');
     const wrk = typeof window.Worker === 'undefined' ? undefined : new Worker('worker.js');
     const dictionary = {};
+    let wrkReady = false;
     if (wrk) {
         wrk.onmessage = (e) => {
-            const strength = JSON.parse(e.data);
-            document.getElementById('strength').value = strength.score;
-            document.getElementById('feedback').value = 'Crack Time: ' + strength.crackTimesDisplay.offlineFastHashing1e10PerSecond;
-            document.getElementById('bg').setAttribute('style', 'display: none');
+            const data = JSON.parse(e.data);
+            if (data.type === 'status') {
+                wrkReady = data.ready;
+                return;
+            }
+            if (data.type === 'strength') {
+                const strength = data.strength;
+                document.getElementById('strength').value = strength.score;
+                document.getElementById('feedback').value = 'Crack Time: ' + strength.crackTimesDisplay.offlineFastHashing1e10PerSecond;
+                document.getElementById('bg').setAttribute('style', 'display: none');
+            }
         };
     } else {
         const scripts = await (await fetch('scripts.json')).json();
@@ -19,6 +27,9 @@
             s.setAttribute('src', `https://cdn.jsdelivr.net/npm/@zxcvbn-ts/${script}@${scripts[script]}/dist/zxcvbn-ts.js`);
             document.body.appendChild(s);
         }
+    }
+    function sleep(seconds) {
+        return new Promise(resolve => setTimeout(resolve, seconds * 1000));
     }
     const enabledAndChecked = (id) => {
         if (!document.getElementById(id)) {
@@ -91,7 +102,7 @@
             return;
         }
         window.setTimeout(() => {document.getElementById('bg').setAttribute('style', 'display: block');}, 1);
-        window.setTimeout(() => {
+        window.setTimeout(async () => {
             let check = document.getElementById('cps').checked;
             if (check) {
                 check = window.confirm('Are you sure you want to check the password strength? It takes a while.');
@@ -176,7 +187,13 @@
                 document.getElementById('feedback').value = 'Crack Time: ' + strength.crackTimesDisplay.offlineFastHashing1e10PerSecond;
                 document.getElementById('bg').setAttribute('style', 'display: none');
             } else if (check && typeof wrk !== 'undefined') {
-                wrk.postMessage(value);
+                while (true) {
+                    if (wrkReady) {
+                        wrk.postMessage(value);
+                        return;
+                    }
+                    await sleep(1);
+                }
             } else {
                 document.getElementById('bg').setAttribute('style', 'display: none');
             }

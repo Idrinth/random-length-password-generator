@@ -8,6 +8,7 @@
     fillDictionary(dictionary, self);
     self.onmessage = (e) => {
         const strength = zxcvbnts.core.zxcvbn(e.data);
-        self.postMessage(JSON.stringify(strength));
+        self.postMessage(JSON.stringify({type: 'strength', strength}));
     }
+    self.postMessage(JSON.stringify({type: 'status', ready: true}));
 })();
